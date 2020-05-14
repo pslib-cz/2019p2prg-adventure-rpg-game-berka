@@ -14,18 +14,15 @@ namespace Adventure2020.Models
         /// <param name="from">Id of location we want to leave.</param>
         /// <param name="to">Id of location we want to enter.</param>
         /// <param name="description">Room description.</param>
-        /// <param name="condition">Additional condition required for succesfull movement.</param>
-        public Connection(Room from, Room to, string description, Func<GameState, bool> condition = null)
+        public Connection(Room from, Room to, string description)
         {
             From = from;
             To = to;
             Description = description;
-            Condition = condition;
         }
 
         public Room From { get; set; }
         public Room To { get; set; }
         public string Description { get; set; }
-        public Func<GameState, bool> Condition { get; set; }
     }
 }

@@ -11,7 +11,5 @@ namespace Adventure2020.Services
         bool ExistsLocation(Room id);
         Location GetLocation(Room id);
         List<Connection> GetConnectionsFrom(Room id);
-        List<Connection> GetConnectionsTo(Room id);
-        bool IsNavigationLegitimate(Room from, Room to, GameState state);
     }
 }

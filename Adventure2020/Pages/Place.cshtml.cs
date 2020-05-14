@@ -24,11 +24,11 @@ namespace Adventure2020
 
         public void OnGet(Room id)
         {
-            _gs.FetchData();
-            //
-            _gs.State.Location = id;
-            _gs.EnteringNewRoom(id);
+            _gs.FetchData();//načtení dat
+            _gs.State.Location = id; // načtení lokace (přepis lokace ve Statu v sessionu)
+            _gs.EnteringNewRoom(id); //např. Work (Money += 10)
             _gs.Store();
+            //načtení dat z gameservice, ukazují se v HTML
             Location = _gs.Location;
             Targets = _gs.Targets;
             State = _gs.State;

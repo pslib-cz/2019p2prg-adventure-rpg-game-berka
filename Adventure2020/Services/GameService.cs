@@ -28,33 +28,17 @@ namespace Adventure2020.Services
             State = new GameState { MaxHP = 20, Location = START_ROOM, HP = 20, Level = 1 };
             Store();
         }
-
-        public void FetchData()
+        public void FetchData() //bere data ze sessionu
         {
             State = _ss.LoadOrCreate(KEY);
         }
 
-        public void Store()
+        public void Store() //ukláda data do sessionu
         {
             _ss.Save(KEY, State);
         }
-        public void EnteringNewRoom(Room room)
+        public void EnteringNewRoom(Room room) //funkce v nový roomce
         {
-            if(State.HP <= 0)
-            {
-                State.Location = Room.GameOver;
-            }
-            if(room == Room.SecretRoom)
-            {
-                if(State.Level < 15)
-                {
-                    State.Location = Room.GameOver;
-                }
-                else
-                {
-                    State.Location = Room.Win;
-                }
-            }
             if(room == Room.Tavern)
             {
                 State.HP = State.MaxHP;
@@ -76,8 +60,9 @@ namespace Adventure2020.Services
             }
             if(State.Level % 1 == 0)
             {
-                State.MaxHP = 20 + Convert.ToInt32(State.Level) * 2; 
+                State.MaxHP = 20 + Convert.ToInt32(State.Level) * 2;
             }
+            State.Level = Math.Round(State.Level, 1);
             Store();
         }
     }

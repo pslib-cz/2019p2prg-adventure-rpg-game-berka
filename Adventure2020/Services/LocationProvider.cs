@@ -12,13 +12,13 @@ namespace Adventure2020.Services
         private Dictionary<Room, ILocation> _locations;
         private List<Connection> _map;
 
-        public LocationProvider()
+        public LocationProvider() // Inicializace mapy hry a lokací
         {
             _locations = new Dictionary<Room, ILocation>();
             _map = new List<Connection>();
             _locations.Add(Room.Start, new Location { Title = "Start", Description = "This is where our story starts." }); // Game starts
             _locations.Add(Room.GameOver, new Location { Title = "Game Over", Description = "All worldly things will one day perish. You just did." }); // Game Over
-            _locations.Add(Room.CityCenter, new Location { Title = "Hall", Description = "You stand in the center of this wide city.\nThere are no people anywhere." });
+            _locations.Add(Room.CityCenter, new Location { Title = "City Center", Description = "You stand in the center of this wide city.\nThere are no people anywhere." });
             _locations.Add(Room.Library, new Location { Title = "Library", Description = "The Library is almost destroyed but there are still some books." });
             _locations.Add(Room.Dungeon, new Location { Title = "Dungeon", Description = "You go through the dungoen and fight some monsters.\nYou should head to the taven." });
             _locations.Add(Room.SecretRoom, new Location { Title = "Secret Room", Description = "The Cthulu is ominously looking at you so you fight it.\n" });
@@ -30,44 +30,34 @@ namespace Adventure2020.Services
             _map.Add(new Connection(Room.Library, Room.SecretRoom, "Enter the hidden room"));
             _map.Add(new Connection(Room.CityCenter, Room.Work, "Go to work"));
             _map.Add(new Connection(Room.CityCenter, Room.Dungeon, "Go to the dungeon(!!!!)"));
-            _map.Add(new Connection(Room.CityCenter, Room.Tavern, "Go to the tavern" , (gs) => { if (gs.Money < 5) return false; else return true; }));
+            _map.Add(new Connection(Room.CityCenter, Room.Tavern, "Go to the tavern"));
             _map.Add(new Connection(Room.Dungeon, Room.CityCenter, "Go back to the city center"));
             _map.Add(new Connection(Room.Library, Room.CityCenter, "Go back to the city center"));
             _map.Add(new Connection(Room.Work, Room.CityCenter, "Go back to the city center"));
             _map.Add(new Connection(Room.Tavern, Room.CityCenter, "Go back to the city center"));
         }
-
-        public bool ExistsLocation(Room id)
+        
+        public bool ExistsLocation(Room id) //vrací true pokud existuje lokace s názvem id. id je unikátní identifikátor v dictionary
         {
             return _locations.ContainsKey(id);
         }
 
-        public List<Connection> GetConnectionsFrom(Room id)
+        public List<Connection> GetConnectionsFrom(Room id) //Vrací list konekcí z určitého místa určené parametrem id
         {
             if (ExistsLocation(id))
             {
-                return _map.Where(m => m.From == id).ToList();
+                return _map.Where(m => m.From == id).ToList(); //pokud existuje lokace kde klíč je roven id tak funkce vrací včechny konekce kde id je rovno vlastnosti From
             }
             throw new InvalidLocation();
         }
 
-        public List<Connection> GetConnectionsTo(Room id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Location GetLocation(Room id)
+        public Location GetLocation(Room id) // vrací lokaci určitého místa, kontrola přes funkci existslocation
         {
             if (ExistsLocation(id))
             {
                 return (Location)_locations[id];
             }
             throw new InvalidLocation();
-        }
-
-        public bool IsNavigationLegitimate(Room from, Room to, GameState state)
-        {
-            throw new NotImplementedException();
         }
     }
 }

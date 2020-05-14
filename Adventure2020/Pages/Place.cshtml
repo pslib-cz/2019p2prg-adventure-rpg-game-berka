@@ -7,10 +7,28 @@
 <h1>@Model.Location.Title</h1>
 <div>@Model.Location.Description</div>
 <div class="m-1">
-    @foreach (var target in Model.Targets)
-    {
-        <a class="btn btn-secondary" asp-page="Place" asp-route-id="@target.To">@target.Description</a>
-    }
+        @if (Model.State.HP <= 0 || Model.State.Money <= -100)
+        {
+            <a class="btn btn-secondary" asp-page="Place" asp-route-id="GameOver">Meet your demise.</a>
+        }
+        else if (Model.State.Location == Models.Room.SecretRoom)
+        {
+            if (Model.State.Level >= 15)
+            {
+                <a class="btn btn-secondary" asp-page="Place" asp-route-id="Win">Meet your demise.</a>
+            }
+            else
+            {
+                <a class="btn btn-secondary" asp-page="Place" asp-route-id="GameOver">Meet your demise.</a>
+            }
+        }
+        else
+        {
+            @foreach (var target in Model.Targets)
+            {
+                <a class="btn btn-secondary" asp-page="Place" asp-route-id="@target.To">@target.Description</a>
+            }
+        }
     <div style="height:200px"></div>
     <a>Current Hp: @Model.State.HP</a>
     <a>Current Level :@Model.State.Level</a>
