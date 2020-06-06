@@ -8,12 +8,6 @@ namespace Adventure2020.Models
 {
     public class Connection
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="from">Id of location we want to leave.</param>
-        /// <param name="to">Id of location we want to enter.</param>
-        /// <param name="description">Room description.</param>
         public Connection(Room from, Room to, string description)
         {
             From = from;

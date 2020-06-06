@@ -3,34 +3,71 @@
 @{
     ViewData["Title"] = "Place";
 }
-
+<style>
+    .responsive{
+        width:100%;
+        height:auto;
+    }
+</style>
 <h1>@Model.Location.Title</h1>
 <div>@Model.Location.Description</div>
 <div class="m-1">
-        @if (Model.State.HP <= 0 || Model.State.Money <= -100)
+    @if ((Model.State.HP <= 0 || Model.State.Money <= -100) && Model.State.Location != Models.Room.GameOver)
+    {
+        <a class="btn btn-danger" asp-page="Place" asp-route-id="GameOver">Meet your demise.</a>
+    }
+    else if (Model.State.Location == Models.Room.SecretRoom)
+    {
+        if (Model.State.Level >= 15)
         {
-            <a class="btn btn-secondary" asp-page="Place" asp-route-id="GameOver">Meet your demise.</a>
-        }
-        else if (Model.State.Location == Models.Room.SecretRoom)
-        {
-            if (Model.State.Level >= 15)
-            {
-                <a class="btn btn-secondary" asp-page="Place" asp-route-id="Win">Meet your demise.</a>
-            }
-            else
-            {
-                <a class="btn btn-secondary" asp-page="Place" asp-route-id="GameOver">Meet your demise.</a>
-            }
+            <a class="btn btn-danger" asp-page="Place" asp-route-id="Win">Meet your demise.</a>
         }
         else
         {
-            @foreach (var target in Model.Targets)
-            {
-                <a class="btn btn-secondary" asp-page="Place" asp-route-id="@target.To">@target.Description</a>
-            }
+            <a class="btn btn-danger" asp-page="Place" asp-route-id="GameOver">Meet your demise.</a>
         }
+    }
+    else if (Model.State.Location == Models.Room.GameOver)
+    {
+        <a class="btn btn-success" asp-page="Start">Start over</a>
+    }
+    else
+    {
+        @foreach (var target in Model.Targets) //target = kam
+        {
+            <a class="btn btn-secondary" asp-page="Place" asp-route-id="@target.To">@target.Description</a>
+        }
+    }
     <div style="height:200px"></div>
     <a>Current Hp: @Model.State.HP</a>
     <a>Current Level :@Model.State.Level</a>
     <a>Current Money :@Model.State.Money</a>
+    <div style="height:100px;"></div>
+    @switch (Model.State.Location)
+    {
+        case Models.Room.CityCenter:
+            <img class="responsive" src="~/city centre.jpg" />
+            break;
+        case Models.Room.Dungeon:
+            <img class="responsive" src="~/dungeon.jpeg" />
+            break;
+        case Models.Room.GameOver:
+            <img class="responsive" src="~/game over.png" />
+            break;
+        case Models.Room.Library:
+            <img class="responsive" src="~/library.jpg" />
+            break;
+        case Models.Room.SecretRoom:
+            <img class="responsive" src="~/secret.jpg" />
+            break;
+        case Models.Room.Tavern:
+            <img class="responsive" src="~/tavern.jpg" />
+            break;
+        case Models.Room.Win:
+            <img class="responsive" src="~/win.png" />
+            break;
+        case Models.Room.Work:
+            <img class="responsive" src="~/work.jpg" />
+            break;
+    }
 </div>

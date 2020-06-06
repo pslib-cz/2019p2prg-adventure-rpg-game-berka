@@ -1,5 +1,4 @@
 ﻿using Adventure2020.Models;
-using Adventure2020.Models.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +8,8 @@ namespace Adventure2020.Services
 {
     public class LocationProvider : ILocationProvider
     {
-        private Dictionary<Room, ILocation> _locations;
-        private List<Connection> _map;
+        private Dictionary<Room, ILocation> _locations; //místo tavern...
+        private List<Connection> _map; // odkud kam
 
         public LocationProvider() // Inicializace mapy hry a lokací
         {
@@ -18,7 +17,7 @@ namespace Adventure2020.Services
             _map = new List<Connection>();
             _locations.Add(Room.Start, new Location { Title = "Start", Description = "This is where our story starts." }); // Game starts
             _locations.Add(Room.GameOver, new Location { Title = "Game Over", Description = "All worldly things will one day perish. You just did." }); // Game Over
-            _locations.Add(Room.CityCenter, new Location { Title = "City Center", Description = "You stand in the center of this wide city.\nThere are no people anywhere." });
+            _locations.Add(Room.CityCenter, new Location { Title = "City Centre", Description = "You stand in the centre of this wide city.\nThere are no people anywhere." });
             _locations.Add(Room.Library, new Location { Title = "Library", Description = "The Library is almost destroyed but there are still some books." });
             _locations.Add(Room.Dungeon, new Location { Title = "Dungeon", Description = "You go through the dungoen and fight some monsters.\nYou should head to the taven." });
             _locations.Add(Room.SecretRoom, new Location { Title = "Secret Room", Description = "The Cthulu is ominously looking at you so you fight it.\n" });
@@ -29,7 +28,7 @@ namespace Adventure2020.Services
             _map.Add(new Connection(Room.CityCenter, Room.Library, "Visit Library" ));
             _map.Add(new Connection(Room.Library, Room.SecretRoom, "Enter the hidden room"));
             _map.Add(new Connection(Room.CityCenter, Room.Work, "Go to work"));
-            _map.Add(new Connection(Room.CityCenter, Room.Dungeon, "Go to the dungeon(!!!!)"));
+            _map.Add(new Connection(Room.CityCenter, Room.Dungeon, "Go to the dungeon"));
             _map.Add(new Connection(Room.CityCenter, Room.Tavern, "Go to the tavern"));
             _map.Add(new Connection(Room.Dungeon, Room.CityCenter, "Go back to the city center"));
             _map.Add(new Connection(Room.Library, Room.CityCenter, "Go back to the city center"));
@@ -37,7 +36,7 @@ namespace Adventure2020.Services
             _map.Add(new Connection(Room.Tavern, Room.CityCenter, "Go back to the city center"));
         }
         
-        public bool ExistsLocation(Room id) //vrací true pokud existuje lokace s názvem id. id je unikátní identifikátor v dictionary
+        public bool ExistsLocation(Room id) //vrací true pokud existuje lokace s názvem id
         {
             return _locations.ContainsKey(id);
         }
@@ -46,18 +45,18 @@ namespace Adventure2020.Services
         {
             if (ExistsLocation(id))
             {
-                return _map.Where(m => m.From == id).ToList(); //pokud existuje lokace kde klíč je roven id tak funkce vrací včechny konekce kde id je rovno vlastnosti From
+                return _map.Where(m => m.From == id).ToList();
             }
-            throw new InvalidLocation();
+            throw new Exception();
         }
 
-        public Location GetLocation(Room id) // vrací lokaci určitého místa, kontrola přes funkci existslocation
+        public Location GetLocation(Room id) // vrací lokaci(title, description) místa
         {
             if (ExistsLocation(id))
             {
                 return (Location)_locations[id];
             }
-            throw new InvalidLocation();
+            throw new Exception();
         }
     }
 }

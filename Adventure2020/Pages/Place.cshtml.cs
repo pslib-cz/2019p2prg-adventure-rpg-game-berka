@@ -18,17 +18,18 @@ namespace Adventure2020
             _gs = gs;
         }
 
-        public Location Location { get; set; }
-        public List<Connection> Targets { get; set; }
+        public Location Location { get; set; } //kde
+        public List<Connection> Targets { get; set; } // kam
         public GameState State { get; private set; }
 
         public void OnGet(Room id)
         {
-            _gs.FetchData();//načtení dat
-            _gs.State.Location = id; // načtení lokace (přepis lokace ve Statu v sessionu)
+            _gs.FetchData();
+            _gs.State.Location = id; 
             _gs.EnteringNewRoom(id); //např. Work (Money += 10)
             _gs.Store();
-            //načtení dat z gameservice, ukazují se v HTML
+
+
             Location = _gs.Location;
             Targets = _gs.Targets;
             State = _gs.State;
